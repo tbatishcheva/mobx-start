@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { observer, inject } from 'mobx-react';
 import './App.css';
+import PropTypes from 'prop-types';
+import AppStore from './stores/AppStore';
 
 class App extends Component {
+  static propTypes = {
+    appStore: PropTypes.instanceOf(AppStore).isRequired,
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="app">
+        {this.props.appStore.value}
+        <button type="button" onClick={this.props.appStore.onClick}>Increase</button>
       </div>
     );
   }
 }
 
-export default App;
+const ObservedApp = inject('appStore')(observer(App));
+
+export default ObservedApp;
